@@ -11,6 +11,7 @@ public class Runner {
         Scanner sc =  new Scanner(System.in);
         Board b = new Board();
 
+
         //game loop - alternate moves
         while(!b.checkWin()) {
 
