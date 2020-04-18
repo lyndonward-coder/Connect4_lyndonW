@@ -6,14 +6,14 @@ public class Runner {
     public static void main(String[] args) {
 
         //make instances
-        Human Lyndon = new Human("Lyndon", "X");
-        Computer c = new Computer("Z");
-        Scanner sc =  new Scanner(System.in);
+        Human Lyndon = new Human("Lyndon", "\uD83D\uDD35");
+        Computer c = new Computer("\uD83D\uDD34");
+        Scanner sc = new Scanner(System.in);
         Board b = new Board();
 
 
         //game loop - alternate moves
-        while(!b.checkWin()) {
+        while (!b.checkWin(c.token) && !b.checkWinV(c.token) &&!b.checkWinD(c.token) && !b.checkWin(Lyndon.token) && !b.checkWinV(Lyndon.token) && !b.checkWinD(Lyndon.token)) {
 
             //set up vars
             boolean legalRow = false;
@@ -24,46 +24,47 @@ public class Runner {
             //human move: validate input and move
             while(!legalCol) {
 
-                //row move
-//                System.out.println("Enter row to move:");
-//                //hasNextInt will return true if user input is an int
-//                if(sc.hasNextInt()) {
-//                    moveRow = sc.nextInt();
-//                    legalRow = true;
-//                }
-//                else {
-//                    System.out.println("Enter a legal row!");
-//                    sc.next();  //very important, resets the input from the "bad" one
-//                }
-
-                //col move
                 System.out.println("Enter col to move:");
+
                 //hasNextInt will return true if user input is an int
                 if(sc.hasNextInt()) {
-                    moveCol = sc.nextInt();
+                    moveCol = sc.nextInt()-1;
                     legalCol = true;
-                }
-                else {
+
+                    if(moveCol > 8) {
+                        System.out.println("Enter a legal col!");
+                        legalCol = false;
+                        sc.next();
+                    }
+
+                    if(moveCol < 8 && !b.colHasRoom(moveCol)){
+                        System.out.println("Column is Full");
+                        legalCol = false;
+                        sc.next();
+                    }
+                }else {
                     System.out.println("Enter a legal col!");
                     sc.next();  //very important, resets the input from the "bad" one
                 }
 
-                if(legalCol) {
-                    b.makeMove(moveCol,Lyndon.token);
+                if (legalCol) {
+                    b.makeMove(moveCol, Lyndon.token);
                 }
             }
 
             //computer move
             int[] cMove = c.determineMove();
-            b.makeMove(cMove[0],c.token);
+            b.makeMove(cMove[0], c.token);
 
             //all done moving, display and repeat
             b.printBoard();
 
         }
+        if (b.checkWin(c.token) || b.checkWinV(c.token) || b.checkWinD(c.token)) {
+            System.out.print("Game Over! You Lost! Play Again!");
 
-        System.out.print("End of Game");
-
+        }else{
+            System.out.print("Game Over! You Win! Play Again!");
+        }
     }
-
 }

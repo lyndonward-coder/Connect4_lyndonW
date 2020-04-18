@@ -6,14 +6,14 @@ public class Computer extends Player {
 
     //very basic random move algorithm for now
     public int[] determineMove() {
+            int col = (int) (Math.random() * 8);
 
-//        int row = (int )(Math.random() * 8);
-        int col = (int )(Math.random() * 8);
+            int[] move = {col};
 
-        int[] move =  {col};
+            return move;
 
-        return move;
+        }
 
     }
 
-}
+
